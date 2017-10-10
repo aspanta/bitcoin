@@ -13,6 +13,7 @@ Comment: The Bitcoin Core Developers encompasses the current developers listed o
 Files: debian/*
 Copyright: 2010-2011, Jonas Smedegaard <dr@jones.dk>
            2011, Matt Corallo <matt@bluematt.me>
+           2017, Aspanta Limited <info@aspanta.com>
 License: GPL-2+
 
 Files: src/qt/res/icons/add.png

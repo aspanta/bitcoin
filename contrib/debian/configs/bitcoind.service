@@ -1,0 +1,14 @@
+[Unit]
+Description=Bitcoin Core
+After=network.target
+
+[Service]
+Type=forking
+User=bitcoin
+ExecStart=/usr/bin/bitcoind -daemon -datadir=/var/lib/bitcoin/.bitcoin -conf=/var/lib/bitcoin/.bitcoin/bitcoin.conf -pid=/var/lib/bitcoin/.bitcoin/bitcoind.pid
+ExecStop=/usr/bin/bitcoin-cli -datadir=/var/lib/bitcoin/.bitcoin stop
+PIDFile=/var/lib/bitcoin/.bitcoin/bitcoind.pid
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

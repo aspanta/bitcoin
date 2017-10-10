@@ -1,0 +1,4 @@
+contrib/debian/configs/bitcoin.conf var/lib/bitcoin/.bitcoin
+contrib/debian/configs/bitcoind.logrotate etc/logrotate.d
+contrib/debian/configs/bitcoind.service lib/systemd/system
+contrib/debian/configs/btc usr/bin

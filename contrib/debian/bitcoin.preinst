@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+. /usr/share/debconf/confmodule
+
+case "$1" in
+  install)
+    getent passwd bitcoin >/dev/null || {
+      groupadd -r bitcoin && useradd -r -m -d /var/lib/bitcoin -k /dev/null -s /bin/false -g bitcoin bitcoin
+    }
+    touch /var/tmp/bitcoin-install.flag
+  ;;
+esac
+
+exit 0

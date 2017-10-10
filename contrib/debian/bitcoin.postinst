@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -e
+. /usr/share/debconf/confmodule
+
+case "$1" in
+  configure)
+    sed -i -e "s/\(^rpcpassword\)\(.*\)/rpcpassword=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)/" /var/lib/bitcoin/.bitcoin/bitcoin.conf
+    chmod 600 /var/lib/bitcoin/.bitcoin/bitcoin.conf
+    chown -R bitcoin.bitcoin /var/lib/bitcoin/.bitcoin /usr/bin/bitcoin-cli
+    chmod 4750 /usr/bin/bitcoin-cli
+    mkdir -p /etc/bitcoin
+    ln -sf /var/lib/bitcoin/.bitcoin/bitcoin.conf /etc/bitcoin/bitcoin.conf || true
+    systemctl daemon-reload
+    [ -f /var/tmp/bitcoin-install.flag ] && {
+      rm -f /var/tmp/bitcoin-install.flag
+      systemctl enable bitcoind
+    }
+    systemctl status bitcoind >/dev/null 2>&1 && systemctl restart bitcoind || {
+      systemctl is-enabled bitcoind >/dev/null 2>&1 && systemctl start bitcoind || true
+    }
+  ;;
+esac
+
+exit 0
